@@ -13368,11 +13368,6 @@ function getMessage(client, context) {
                 'triggering this action on the `pull_request` or `pull_request_target` events.');
             return false;
         }
-        // Don't bother hitting the API if the event actor isn't Dependabot
-        if (context.actor !== DEPENDABOT_LOGIN) {
-            core.debug(`Event actor '${context.actor}' is not Dependabot.`);
-            return false;
-        }
         core.debug('Verifying the Pull Request contents are from Dependabot');
         const { data: commits } = yield client.rest.pulls.listCommits({
             owner: context.repo.owner,

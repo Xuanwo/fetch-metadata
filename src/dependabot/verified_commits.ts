@@ -17,12 +17,6 @@ export async function getMessage (client: InstanceType<typeof GitHub>, context: 
     return false
   }
 
-  // Don't bother hitting the API if the event actor isn't Dependabot
-  if (context.actor !== DEPENDABOT_LOGIN) {
-    core.debug(`Event actor '${context.actor}' is not Dependabot.`)
-    return false
-  }
-
   core.debug('Verifying the Pull Request contents are from Dependabot')
 
   const { data: commits } = await client.rest.pulls.listCommits({

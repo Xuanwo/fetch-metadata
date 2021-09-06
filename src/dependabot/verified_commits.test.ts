@@ -25,14 +25,6 @@ test('it returns false if the action is not invoked on a PullRequest', async () 
   )
 })
 
-test('it returns false for an event triggered by someone other than Dependabot', async () => {
-  expect(await getMessage(mockGitHubClient, mockGitHubPullContext('jane-doe'))).toBe(false)
-
-  expect(core.debug).toHaveBeenCalledWith(
-    expect.stringContaining("Event actor 'jane-doe' is not Dependabot.")
-  )
-})
-
 test('it returns false if there is more than 1 commit', async () => {
   nock('https://api.github.com').get('/repos/dependabot/dependabot/pulls/101/commits')
     .reply(200, [
