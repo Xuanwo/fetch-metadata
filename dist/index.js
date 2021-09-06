@@ -13497,11 +13497,11 @@ function run() {
                     set(updatedDependencies);
                 }
                 else {
-                    core.setFailed('PR does not contain metadata, nothing to do.');
+                    core.info('PR does not contain metadata, nothing to do.');
                 }
             }
             else {
-                core.setFailed('PR is not from Dependabot, nothing to do.');
+                core.info('PR is not from Dependabot, nothing to do.');
             }
         }
         catch (error) {

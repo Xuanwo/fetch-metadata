@@ -24,19 +24,6 @@ test('it early exits with an error if github-token is not set', async () => {
   /* eslint-enable no-unused-expressions */
 })
 
-test('it does nothing if the PR is not verified as from Dependabot', async () => {
-  jest.spyOn(core, 'getInput').mockReturnValue('mock-token')
-  jest.spyOn(dependabotCommits, 'getMessage').mockImplementation(jest.fn(
-    () => Promise.resolve(false)
-  ))
-
-  await run()
-
-  expect(core.setFailed).toHaveBeenCalledWith(
-    expect.stringContaining('PR is not from Dependabot, nothing to do.')
-  )
-})
-
 test('it does nothing if there is no metadata in the commit', async () => {
   jest.spyOn(core, 'getInput').mockReturnValue('mock-token')
   jest.spyOn(dependabotCommits, 'getMessage').mockImplementation(jest.fn(
@@ -45,7 +32,7 @@ test('it does nothing if there is no metadata in the commit', async () => {
 
   await run()
 
-  expect(core.setFailed).toHaveBeenCalledWith(
+  expect(core.info).toHaveBeenCalledWith(
     expect.stringContaining('PR does not contain metadata, nothing to do.')
   )
 })
