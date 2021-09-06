@@ -13379,18 +13379,13 @@ function getMessage(client, context) {
             repo: context.repo.repo,
             pull_number: pr.number
         });
-        if (commits.length > 1) {
-            warnOtherCommits();
-            return false;
-        }
         const { commit, author } = commits[0];
         if ((author === null || author === void 0 ? void 0 : author.login) !== DEPENDABOT_LOGIN) {
             warnOtherCommits();
             return false;
         }
         if (!((_a = commit.verification) === null || _a === void 0 ? void 0 : _a.verified)) {
-            // TODO: Promote to setFailed
-            core.warning("Dependabot's commit signature is not verified, refusing to proceed.");
+            core.setFailed("Dependabot's commit signature is not verified, refusing to proceed.");
             return false;
         }
         return commit.message;

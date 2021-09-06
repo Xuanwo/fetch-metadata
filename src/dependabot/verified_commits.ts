@@ -31,11 +31,6 @@ export async function getMessage (client: InstanceType<typeof GitHub>, context: 
     pull_number: pr.number
   })
 
-  if (commits.length > 1) {
-    warnOtherCommits()
-    return false
-  }
-
   const { commit, author } = commits[0]
 
   if (author?.login !== DEPENDABOT_LOGIN) {
@@ -44,8 +39,7 @@ export async function getMessage (client: InstanceType<typeof GitHub>, context: 
   }
 
   if (!commit.verification?.verified) {
-    // TODO: Promote to setFailed
-    core.warning(
+    core.setFailed(
       "Dependabot's commit signature is not verified, refusing to proceed."
     )
     return false
